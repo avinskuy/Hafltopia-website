@@ -4,210 +4,339 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HalfTopia Shop - Get Your Exclusive Assets!</title>
+
+<!-- ===== FRAMEWORKS ===== -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-  body { background: #0b0d13; color: #fff; min-height: 100vh; padding-bottom: 40px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+  body { background: #0b0d13; color: #fff; min-height: 100vh; padding-bottom: 90px; }
+  h1, h2, h3 { font-family: 'Baloo 2', cursive; }
+
+  /* ===== NAVBAR ===== */
+  .nav {
+    position: sticky; top: 0; z-index: 90;
+    background: rgba(11,13,19,.9); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(77,184,255,.25);
+    padding: 12px 20px; max-width: 1100px; margin: auto;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .nav .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 20px; }
+  .nav .brand img { height: 38px; border-radius: 8px; }
+  .nav .brand span { color: #4db8ff; }
+  .nav .right { display: flex; gap: 10px; align-items: center; }
+  .nav a.nl { color: #c8cdd8; text-decoration: none; font-size: 14px; font-weight: 600; transition: .3s; }
+  .nav a.nl:hover { color: #4db8ff; }
+  .cart-btn {
+    position: relative; background: linear-gradient(135deg, #2d6cdf, #4db8ff);
+    width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center;
+    justify-content: center; color: #fff; text-decoration: none; box-shadow: 0 0 15px rgba(77,184,255,.4);
+    cursor: pointer; border: none; font-size: 16px;
+  }
+  .cart-badge {
+    position: absolute; top: -6px; right: -6px; background: #ff4757; color: #fff;
+    font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; padding: 0 5px;
+    transform: scale(0); transition: .3s;
+  }
+  .cart-badge.show { transform: scale(1); }
 
   /* ===== HEADER ===== */
-  .shop-header { display: flex; align-items: center; gap: 15px; padding: 40px 20px 20px; max-width: 900px; margin: auto; }
-  .shop-header .shop-icon {
-    width: 60px; height: 60px; border-radius: 12px; font-size: 32px;
-    background: linear-gradient(135deg, #2d6cdf, #7b5cff);
-    display: flex; align-items: center; justify-content: center;
+  .shop-header { max-width: 1100px; margin: auto; padding: 35px 20px 10px; display: flex; align-items: center; gap: 15px; }
+  .shop-header img {
+    width: 62px; height: 62px; border-radius: 14px;
+    box-shadow: 0 0 25px rgba(77,184,255,.4); animation: float 4s ease-in-out infinite;
   }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
   .shop-header h1 { font-size: 26px; }
-  .shop-header p { color: #8a8f9e; font-size: 14px; }
+  .shop-header p { color: #8a8f9e; font-size: 13px; }
 
-  /* ===== CATEGORY TAB ===== */
-  .tabs { max-width: 900px; margin: 0 auto 20px; padding: 0 20px; }
-  .tab {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: linear-gradient(135deg, #2d6cdf, #4db8ff);
-    padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 14px;
+  /* ===== SEARCH & CATEGORY ===== */
+  .toolbar { max-width: 1100px; margin: 20px auto; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .search {
+    flex: 1; min-width: 200px; display: flex; align-items: center; gap: 10px;
+    background: #16181f; border: 1px solid #2a2e3a; border-radius: 12px; padding: 0 14px;
   }
+  .search i { color: #5a6478; font-size: 14px; }
+  .search input { flex: 1; background: none; border: none; outline: none; color: #fff; padding: 12px 0; font-size: 14px; }
+  .cats { display: flex; gap: 8px; flex-wrap: wrap; }
+  .cat {
+    padding: 10px 18px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer;
+    background: #16181f; border: 1px solid #2a2e3a; color: #c8cdd8; transition: .3s; border: none;
+  }
+  .cat:hover { border-color: #2d6cdf; color: #4db8ff; }
+  .cat.active { background: linear-gradient(135deg, #2d6cdf, #4db8ff); color: #fff; box-shadow: 0 0 15px rgba(77,184,255,.35); }
 
   /* ===== PRODUCT GRID ===== */
-  .grid { max-width: 900px; margin: auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .grid { max-width: 1100px; margin: auto; padding: 0 20px; display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
   .product {
-    background: #16181f; border-radius: 12px; overflow: hidden;
+    background: #16181f; border-radius: 14px; overflow: hidden;
     border: 1px solid #23262f; transition: .3s; display: flex; flex-direction: column;
   }
-  .product:hover { border-color: #2d6cdf; transform: translateY(-4px); }
+  .product:hover { border-color: #2d6cdf; transform: translateY(-5px); box-shadow: 0 15px 35px rgba(45,108,223,.25); }
   .product .img {
-    height: 160px; background: linear-gradient(180deg, #6db3f2 0%, #a8d4f5 100%);
-    display: flex; align-items: center; justify-content: center; font-size: 60px;
-    position: relative;
+    height: 155px; background: linear-gradient(180deg, #6db3f2 0%, #a8d4f5 100%);
+    display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
   }
-  /* dummy background ala growtopia */
   .product .img::before {
-    content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 35px;
+    content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 32px;
     background: linear-gradient(180deg, #7ac74f 50%, #5d8f3a 50%);
   }
-  .product .info { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; }
-  .product .name { font-weight: 700; font-size: 15px; }
-  .product .qty { color: #8a8f9e; font-size: 12px; margin-top: 4px; }
-  .product .price { font-weight: 800; font-size: 17px; margin-top: 10px; }
+  .product .img span { font-size: 55px; z-index: 1; filter: drop-shadow(0 5px 8px rgba(0,0,0,.3)); transition: .3s; }
+  .product:hover .img span { transform: scale(1.15) rotate(-4deg); }
+  .product .badge {
+    position: absolute; top: 10px; left: 10px; z-index: 2; background: #ff4757;
+    font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;
+  }
+  .product .badge.new { background: #22c55e; }
+  .product .badge.hot { background: #ff4757; }
+  .product .info { padding: 13px 15px; flex: 1; display: flex; flex-direction: column; }
+  .product .name { font-weight: 700; font-size: 14px; }
+  .product .price { font-weight: 800; font-size: 16px; margin-top: 8px; color: #4db8ff; }
   .product .add {
     margin-top: 12px; background: linear-gradient(135deg, #2d6cdf, #4db8ff); border: none;
-    color: #fff; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: .2s;
+    color: #fff; padding: 10px; border-radius: 10px; font-weight: 700; cursor: pointer;
+    transition: .2s; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px;
   }
   .product .add:hover { filter: brightness(1.15); }
   .product .add.in-cart { background: #22304a; color: #4db8ff; }
 
-  /* ===== CART BAR (mobile) ===== */
+  .empty {
+    grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #5a6478;
+  }
+  .empty i { font-size: 50px; margin-bottom: 15px; }
+
+  /* ===== CART BAR ===== */
   .cartbar {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
-    background: #16181f; border-top: 1px solid #23262f;
-    padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+    background: rgba(22,24,31,.95); backdrop-filter: blur(10px); border-top: 1px solid #2a2e3a;
+    padding: 13px 20px; display: flex; justify-content: space-between; align-items: center; max-width: none;
   }
-  .cartbar .total { font-weight: 700; }
+  .cartbar .tinfo { display: flex; flex-direction: column; }
+  .cartbar .tinfo small { color: #5a6478; font-size: 11px; }
+  .cartbar .total { font-weight: 800; font-size: 17px; }
   .cartbar .total span { color: #4db8ff; }
   .cartbar button {
     background: linear-gradient(135deg, #2d6cdf, #4db8ff); border: none; color: #fff;
-    padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer;
+    padding: 13px 26px; border-radius: 12px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; gap: 8px; transition: .3s; font-size: 14px;
   }
-  .cartbar button:disabled { background: #22304a; color: #5a6478; cursor: not-allowed; }
+  .cartbar button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(77,184,255,.4); }
+  .cartbar button:disabled { background: #22304a; color: #5a6478; cursor: not-allowed; transform: none; box-shadow: none; }
 
   /* ===== CHECKOUT MODAL ===== */
   .overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7);
-    z-index: 100; align-items: flex-end; justify-content: center;
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75);
+    z-index: 100; align-items: flex-end; justify-content: center; backdrop-filter: blur(4px);
   }
   .overlay.open { display: flex; }
   .modal {
     background: #16181f; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
-    border-radius: 20px 20px 0 0; padding: 24px; border: 1px solid #23262f;
+    border-radius: 22px 22px 0 0; padding: 26px; border: 1px solid #2a2e3a;
+    animation: slideUp .35s ease;
   }
-  .modal h2 { font-size: 20px; margin-bottom: 5px; }
-  .modal .sub { color: #8a8f9e; font-size: 13px; margin-bottom: 20px; }
+  @keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal h2 { font-size: 21px; margin-bottom: 4px; }
+  .modal .sub { color: #8a8f9e; font-size: 13px; margin-bottom: 18px; }
   .modal label { display: block; font-size: 13px; font-weight: 600; margin: 15px 0 6px; }
-  .modal input, .modal textarea {
+  .modal input {
     width: 100%; background: #0b0d13; border: 1px solid #2a2e3a; color: #fff;
-    padding: 12px 14px; border-radius: 8px; font-size: 14px; outline: none;
+    padding: 12px 14px; border-radius: 10px; font-size: 14px; outline: none; transition: .3s;
   }
-  .modal input:focus, .modal textarea:focus { border-color: #2d6cdf; }
+  .modal input:focus { border-color: #2d6cdf; box-shadow: 0 0 12px rgba(45,108,223,.3); }
   .modal .small { color: #5a6478; font-size: 11px; margin-top: 4px; }
-  .cart-items { background: #0b0d13; border: 1px solid #2a2e3a; border-radius: 10px; padding: 12px 14px; margin-top: 10px; }
-  .cart-item { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; color: #c8cdd8; }
-  .cart-item .rm { color: #ff5b5b; cursor: pointer; margin-left: 10px; }
-  .cart-total { display: flex; justify-content: space-between; font-weight: 800; border-top: 1px solid #2a2e3a; margin-top: 8px; padding-top: 10px; }
+  .cart-items { background: #0b0d13; border: 1px solid #2a2e3a; border-radius: 12px; padding: 12px 14px; }
+  .cart-item { display: flex; justify-content: space-between; font-size: 13px; padding: 7px 0; color: #c8cdd8; align-items: center; }
+  .cart-item .rm { color: #ff5b5b; cursor: pointer; margin-left: 10px; font-size: 14px; }
+  .cart-total { display: flex; justify-content: space-between; font-weight: 800; border-top: 1px solid #2a2e3a; margin-top: 8px; padding-top: 11px; }
   .btn-checkout {
-    width: 100%; margin-top: 20px; background: linear-gradient(135deg, #2d6cdf, #4db8ff);
-    border: none; color: #fff; padding: 15px; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer;
+    width: 100%; margin-top: 20px; background: linear-gradient(135deg, #22c55e, #16a34a);
+    border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 800; font-size: 15px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: .3s;
   }
-  .btn-checkout:disabled { background: #22304a; color: #5a6478; cursor: not-allowed; }
+  .btn-checkout:hover { box-shadow: 0 8px 25px rgba(34,197,94,.4); transform: translateY(-2px); }
+  .btn-checkout:disabled { background: #22304a; color: #5a6478; cursor: not-allowed; transform: none; box-shadow: none; }
   .btn-close { background: none; border: none; color: #8a8f9e; font-size: 14px; cursor: pointer; margin-top: 12px; width: 100%; }
 
   /* ===== NOTES ===== */
   .notes {
-    max-width: 900px; margin: 25px auto 0; padding: 16px 20px; margin-left: 20px; margin-right: 20px;
-    background: linear-gradient(135deg, #2d6cdf, #1a6fd4); border-radius: 12px; font-size: 13px; line-height: 1.8;
+    max-width: 1100px; margin: 30px 20px 0; margin-left: auto; margin-right: auto;
+    background: linear-gradient(135deg, #2d6cdf, #1a6fd4); border-radius: 14px;
+    padding: 18px 22px; font-size: 13px; line-height: 1.9;
   }
-  .notes b { display: block; margin-bottom: 5px; }
+  .notes b { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #22c55e; color: #fff; padding: 12px 22px; border-radius: 30px;
+    font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none; transition: .35s;
+    z-index: 200; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 25px rgba(0,0,0,.4);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   @media (min-width: 700px) {
     .overlay { align-items: center; }
-    .modal { border-radius: 16px; }
+    .modal { border-radius: 18px; }
   }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="shop-header">
-  <div class="shop-icon">🌌</div>
-  <div>
-    <h1>HalfTopia Shop</h1>
-    <p>Get your exclusive assets for the game!</p>
+<!-- NAVBAR -->
+<div class="nav">
+  <a href="index.html" class="brand"><img src="logo.png" alt="HalfTopia">HALF<span>TOPIA</span></a>
+  <div class="right">
+    <a href="index.html" class="nl"><i class="fa-solid fa-house"></i> Home</a>
+    <div class="cart-btn" onclick="openCheckout()">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <div class="cart-badge" id="cartBadge">0</div>
+    </div>
   </div>
 </div>
 
-<!-- TAB -->
-<div class="tabs">
-  <span class="tab">📦 Custom Items</span>
+<!-- HEADER -->
+<div class="shop-header">
+  <img src="logo.png" alt="HalfTopia">
+  <div>
+    <h1>HalfTopia Shop</h1>
+    <p><i class="fa-solid fa-bolt" style="color:#4db8ff"></i> Get your exclusive assets for the game!</p>
+  </div>
+</div>
+
+<!-- SEARCH & CATEGORY -->
+<div class="toolbar" data-aos="fade-up">
+  <div class="search">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchInput" placeholder="Search items..." oninput="renderProducts()">
+  </div>
+  <div class="cats" id="cats">
+    <button class="cat active" onclick="setCat('all', this)">All</button>
+    <button class="cat" onclick="setCat('skin', this)">Skins</button>
+    <button class="cat" onclick="setCat('aura', this)">Auras</button>
+    <button class="cat" onclick="setCat('weapon', this)">Weapons</button>
+  </div>
 </div>
 
 <!-- PRODUCTS -->
 <div class="grid" id="grid"></div>
 
 <!-- NOTES -->
-<div class="notes">
-  <b>Important Notes:</b>
-  • Make sure your HalfTopia GrowID is correct<br>
-  • Setelah checkout, admin akan memproses pesanan via WhatsApp/Discord<br>
-  • Item dikirim langsung in-game ke World yang lo tulis
+<div class="notes" data-aos="fade-up">
+  <b><i class="fa-solid fa-circle-info"></i> Important Notes:</b>
+  <i class="fa-solid fa-check" style="width:18px"></i> Make sure your HalfTopia GrowID is correct<br>
+  <i class="fa-solid fa-check" style="width:18px"></i> Setelah checkout, admin akan memproses pesanan via WhatsApp<br>
+  <i class="fa-solid fa-check" style="width:18px"></i> Item dikirim langsung in-game ke World yang lo tulis<br>
+  <i class="fa-solid fa-check" style="width:18px"></i> Pembayaran via QRIS / Transfer / E-Wallet (info dari admin)
 </div>
 
 <!-- CART BAR -->
 <div class="cartbar">
-  <div class="total">Total: <span id="cartTotal">Rp 0</span></div>
-  <button id="btnCart" onclick="openCheckout()" disabled>🛒 Checkout</button>
+  <div class="tinfo">
+    <small><i class="fa-solid fa-box"></i> <span id="cartCount">0</span> items</small>
+    <div class="total">Total: <span id="cartTotal">Rp 0</span></div>
+  </div>
+  <button id="btnCart" onclick="openCheckout()" disabled><i class="fa-solid fa-cart-shopping"></i> Checkout</button>
 </div>
 
 <!-- CHECKOUT MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal">
-    <h2>🛒 Checkout</h2>
+    <h2><i class="fa-solid fa-cart-shopping" style="color:#4db8ff"></i> Checkout</h2>
     <p class="sub">Fill in your game details to proceed</p>
 
     <div class="cart-items" id="cartItems"></div>
 
-    <label>GrowID *</label>
+    <label><i class="fa-solid fa-user"></i> GrowID *</label>
     <input type="text" id="growid" placeholder="Your GrowID">
 
-    <label>World Name *</label>
+    <label><i class="fa-solid fa-earth-asia"></i> World Name *</label>
     <input type="text" id="world" placeholder="Your World Name">
 
-    <label>Email (Optional)</label>
+    <label><i class="fa-solid fa-envelope"></i> Email (Optional)</label>
     <input type="email" id="email" placeholder="Your Email (Optional)">
     <p class="small">For order confirmation</p>
 
-    <button class="btn-checkout" id="btnCheckout" onclick="checkout()">Kirim Pesanan via WhatsApp</button>
+    <button class="btn-checkout" id="btnCheckout" onclick="checkout()">
+      <i class="fa-brands fa-whatsapp"></i> Kirim Pesanan via WhatsApp
+    </button>
     <button class="btn-close" onclick="closeCheckout()">Tutup</button>
   </div>
 </div>
 
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i> <span id="toastMsg"></span></div>
+
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-// ===== DAFTAR PRODUK (ganti icon jadi gambar lo: pakai <img src="..."> ) =====
+AOS.init({ once: true, duration: 700 });
+
+// ===== PRODUK (category: skin / aura / weapon | badge: 'hot' / 'new' / null) =====
 const products = [
-  { id: 1, name: "Buster Criminal",   price: 300000, icon: "🤖" },
-  { id: 2, name: "Mario '85 MX",      price: 250000, icon: "🦍" },
-  { id: 3, name: "Ultra M",           price: 150000, icon: "🧟" },
-  { id: 4, name: "Boyfriend - FNF",   price: 175000, icon: "🎮" },
-  { id: 5, name: "Antagon",           price: 150000, icon: "⚔️" },
-  { id: 6, name: "Mario Smash",       price: 100000, icon: "🍄" },
-  { id: 7, name: "Golem of Lago",     price: 100000, icon: "🗿" },
-  { id: 8, name: "Iron Reign",        price: 80000,  icon: "🥷" },
-  { id: 9, name: "Sonic Hedgehog",    price: 80000,  icon: "🦔" },
-  { id: 10, name: "Classified Luigi", price: 150000, icon: "🟢" },
-  { id: 11, name: "Tricky",           price: 500000, icon: "👹" },
-  { id: 12, name: "Abyssal Sword",    price: 1200000, icon: "🗡️" },
-  { id: 13, name: "Abyssal Dragon",   price: 1200000, icon: "🐉" },
-  { id: 14, name: "Abyssal Tornado Aura", price: 1000000, icon: "🌪️" },
-  { id: 15, name: "Blackhole Aura",   price: 150000, icon: "🕳️" },
-  { id: 16, name: "Bluehole Aura",    price: 150000, icon: "💠" },
-  { id: 17, name: "Crimson Bloodstrike Blade", price: 250000, icon: "🩸" },
-  { id: 18, name: "Kyubi Six Tails",  price: 1000000, icon: "🦊" },
+  { id: 1,  name: "Buster Criminal",    price: 300000,  icon: "🤖", cat: "skin",   badge: "hot" },
+  { id: 2,  name: "Mario '85 MX",       price: 250000,  icon: "🍄", cat: "skin",   badge: null },
+  { id: 3,  name: "Ultra M",            price: 150000,  icon: "🧟", cat: "skin",   badge: null },
+  { id: 4,  name: "Boyfriend - FNF",    price: 175000,  icon: "🎮", cat: "skin",   badge: "new" },
+  { id: 5,  name: "Antagon",            price: 150000,  icon: "⚔️", cat: "weapon", badge: null },
+  { id: 6,  name: "Mario Smash",        price: 100000,  icon: "👾", cat: "skin",   badge: null },
+  { id: 7,  name: "Golem of Lago",      price: 100000,  icon: "🗿", cat: "skin",   badge: null },
+  { id: 8,  name: "Iron Reign",         price: 80000,   icon: "🥷", cat: "skin",   badge: null },
+  { id: 9,  name: "Sonic Hedgehog",     price: 80000,   icon: "🦔", cat: "skin",   badge: null },
+  { id: 10, name: "Classified Luigi",   price: 150000,  icon: "🟢", cat: "skin",   badge: null },
+  { id: 11, name: "Tricky",             price: 500000,  icon: "👹", cat: "skin",   badge: "hot" },
+  { id: 12, name: "Abyssal Sword",      price: 1200000, icon: "🗡️", cat: "weapon", badge: "hot" },
+  { id: 13, name: "Abyssal Dragon",     price: 1200000, icon: "🐉", cat: "weapon", badge: "hot" },
+  { id: 14, name: "Abyssal Tornado Aura", price: 1000000, icon: "🌪️", cat: "aura", badge: null },
+  { id: 15, name: "Blackhole Aura",     price: 150000,  icon: "🕳️", cat: "aura",   badge: "new" },
+  { id: 16, name: "Bluehole Aura",      price: 150000,  icon: "💠", cat: "aura",   badge: null },
+  { id: 17, name: "Crimson Bloodstrike Blade", price: 250000, icon: "🩸", cat: "weapon", badge: null },
+  { id: 18, name: "Kyubi Six Tails",    price: 1000000, icon: "🦊", cat: "aura",   badge: "new" },
 ];
 
-// GANTI dengan nomor WhatsApp admin lo (format internasional tanpa +)
+// ⚠️ GANTI dengan nomor WA admin lo (format 62xxx tanpa +)
 const WA_NUMBER = "6281234567890";
 
-let cart = {}; // {id: qty}
+let cart = {};
+let activeCat = "all";
 
-function formatRupiah(n) {
-  return "Rp " + n.toLocaleString("id-ID");
+function formatRupiah(n) { return "Rp " + n.toLocaleString("id-ID"); }
+
+function setCat(cat, el) {
+  activeCat = cat;
+  document.querySelectorAll(".cat").forEach(c => c.classList.remove("active"));
+  el.classList.add("active");
+  renderProducts();
 }
 
 function renderProducts() {
-  document.getElementById("grid").innerHTML = products.map(p => `
-    <div class="product">
-      <div class="img">${p.icon}</div>
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  const filtered = products.filter(p =>
+    (activeCat === "all" || p.cat === activeCat) && p.name.toLowerCase().includes(q)
+  );
+
+  if (filtered.length === 0) {
+    document.getElementById("grid").innerHTML =
+      `<div class="empty"><i class="fa-solid fa-box-open"></i><br>Item ga ketemu, coba kata kunci lain!</div>`;
+    return;
+  }
+
+  document.getElementById("grid").innerHTML = filtered.map((p, i) => `
+    <div class="product" data-aos="fade-up" data-aos-delay="${(i % 4) * 80}">
+      <div class="img">
+        {p.badge ? `<div class="badge{p.badge}">${p.badge}</div>` : ""}
+        <span>${p.icon}</span>
+      </div>
       <div class="info">
         <div class="name">${p.name}</div>
-        <div class="qty">1x ${p.name}</div>
         <div class="price">${formatRupiah(p.price)}</div>
-        <button class="add" id="btn-p.id"onclick="addToCart({p.id}" onclick="addToCart(p.id"onclick="addToCart({p.id})">+ Keranjang</button>
+        <button class="add cart[p.id]?′in−cart′:′′"id="btn−{cart[p.id] ? 'in-cart' : ''}" id="btn-cart[p.id]?′in−cart′:′′"id="btn−{p.id}" onclick="addToCart(${p.id})">
+          <i class="fa-solid ${cart[p.id] ? 'fa-check' : 'fa-cart-plus'}"></i>
+          {cart[p.id] ? `Di keranjang ({cart[p.id]})` : 'Tambah'}
+        </button>
       </div>
     </div>
   `).join("");
@@ -216,47 +345,50 @@ function renderProducts() {
 function addToCart(id) {
   cart[id] = (cart[id] || 0) + 1;
   updateCart();
+  const p = products.find(x => x.id === id);
+  showToast(`${p.name} masuk keranjang!`);
 }
 
-function removeFromCart(id) {
-  delete cart[id];
-  updateCart();
-}
+function removeFromCart(id) { delete cart[id]; updateCart(); }
 
 function updateCart() {
   const ids = Object.keys(cart);
-  const total = ids.reduce((sum, id) => sum + products.find(p => p.id == id).price * cart[id], 0);
+  const count = ids.reduce((s, id) => s + cart[id], 0);
+  const total = ids.reduce((s, id) => s + products.find(p => p.id == id).price * cart[id], 0);
 
   document.getElementById("cartTotal").textContent = formatRupiah(total);
+  document.getElementById("cartCount").textContent = count;
   document.getElementById("btnCart").disabled = ids.length === 0;
 
-  // update tombol produk
+  const badge = document.getElementById("cartBadge");
+  badge.textContent = count;
+  badge.classList.toggle("show", count > 0);
+
   products.forEach(p => {
     const btn = document.getElementById("btn-" + p.id);
     if (!btn) return;
-    if (cart[p.id]) {
-      btn.textContent = `✓ Di keranjang (${cart[p.id]})`;
-      btn.classList.add("in-cart");
-    } else {
-      btn.textContent = "+ Keranjang";
-      btn.classList.remove("in-cart");
-    }
+    btn.classList.toggle("in-cart", !!cart[p.id]);
+    btn.innerHTML = cart[p.id]
+      ? `<i class="fa-solid fa-check"></i> Di keranjang (${cart[p.id]})`
+      : `<i class="fa-solid fa-cart-plus"></i> Tambah`;
   });
 
-  // render isi cart di modal
   document.getElementById("cartItems").innerHTML = ids.length === 0
-    ? `<div style="color:#5a6478; font-size:13px;">Belum ada item dipilih</div>`
+    ? `<div style="color:#5a6478; font-size:13px; text-align:center; padding:10px;">Belum ada item dipilih</div>`
     : ids.map(id => {
         const p = products.find(x => x.id == id);
         return `<div class="cart-item">
           <span>p.icon{p.icon}p.icon{p.name} ×${cart[id]}</span>
-          <span>formatRupiah(p.price∗cart[id])<spanclass="rm"onclick="removeFromCart({formatRupiah(p.price * cart[id])}<span class="rm" onclick="removeFromCart(formatRupiah(p.price∗cart[id])<spanclass="rm"onclick="removeFromCart({id})">✕</span></span>
+          <span>formatRupiah(p.price∗cart[id])<spanclass="rm"onclick="removeFromCart({formatRupiah(p.price * cart[id])}<span class="rm" onclick="removeFromCart(formatRupiah(p.price∗cart[id])<spanclass="rm"onclick="removeFromCart({id})"><i class="fa-solid fa-trash"></i></span></span>
         </div>`;
       }).join("") +
       `<div class="cart-total"><span>Total</span><span style="color:#4db8ff">${formatRupiah(total)}</span></div>`;
 }
 
-function openCheckout() { document.getElementById("overlay").classList.add("open"); }
+function openCheckout() {
+  if (Object.keys(cart).length === 0) return showToast("Pilih item dulu!", true);
+  document.getElementById("overlay").classList.add("open");
+}
 function closeCheckout() { document.getElementById("overlay").classList.remove("open"); }
 
 function checkout() {
@@ -269,7 +401,7 @@ function checkout() {
   if (!growid) return alert("GrowID wajib diisi!");
   if (!world) return alert("World Name wajib diisi!");
 
-  let msg = "🌌 *HALFTOPIA SHOP - NEW ORDER* 🌌\n━━━━━━━━━━━━━━━━\n";
+  let msg = "🌌 *HALFTOPIA SHOP - NEW ORDER* 🌌\n━━━━━━━━━━━━━━━━";
   let total = 0;
   ids.forEach(id => {
     const p = products.find(x => x.id == id);
@@ -280,7 +412,16 @@ function checkout() {
   msg += `\n━━━━━━━━━━━━━━━━\n👤 GrowID: growid\n🌍World:{growid}\n🌍 World:growid\n🌍World:{world}`;
   if (email) msg += `\n📧 Email: ${email}`;
 
-  window.open(`https://wa.me/WANUMBER?text={WA_NUMBER}?text=WANUMBER?text={encodeURIComponent(msg)}`, "_blank");
+  window.open(`https://wa.me/WANUMBER?text={WA_NUMBER}?text=WAN​UMBER?text={encodeURIComponent(msg)}`, "_blank");
+}
+
+function showToast(msg, warn) {
+  const t = document.getElementById("toast");
+  document.getElementById("toastMsg").textContent = msg;
+  t.style.background = warn ? "#ff4757" : "#22c55e";
+  t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove("show"), 2200);
 }
 
 renderProducts();
