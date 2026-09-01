@@ -184,9 +184,9 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
   <h2 class="sec-title">🖼️ Gallery</h2>
   <p class="sec-sub">Momen seru di dalam server</p>
   <div class="gal">
-    <div class="gitem" data-aos="zoom-in"><img src="https://placehold.co/640x400/141428/7c5cff?text=Screenshot+1" alt="Event"><div class="gcap">🎉 Event World — Ganti dengan screenshot asli!</div></div>
-    <div class="gitem" data-aos="zoom-in" data-aos-delay="100"><img src="https://placehold.co/640x400/141428/00d4ff?text=Screenshot+2" alt="Custom item"><div class="gcap">⚔️ Custom Items — Ganti dengan screenshot asli!</div></div>
-    <div class="gitem" data-aos="zoom-in" data-aos-delay="200"><img src="https://placehold.co/640x400/141428/22c55e?text=Screenshot+3" alt="Community"><div class="gcap">👥 Community — Ganti dengan screenshot asli!</div></div>
+    <div class="gitem" data-aos="zoom-in"><img src="ss1.jpg" alt="Event"><div class="gcap">🎉 Event World</div></div>
+    <div class="gitem" data-aos="zoom-in" data-aos-delay="100"><img src="ss2.jpg" alt="Custom item"><div class="gcap">⚔️ Custom Items</div></div>
+    <div class="gitem" data-aos="zoom-in" data-aos-delay="200"><img src="ss3.jpg" alt="Community"><div class="gcap">👥 Random</div></div>
   </div>
 </section>
 
@@ -312,11 +312,17 @@ async function updateOnline(){
 }
 updateOnline();setInterval(updateOnline,30000);
 
-/* MUSIC */
-function toggleMusic(){
-  const a=document.getElementById('bgm'),b=document.getElementById('musicBtn');
-  if(a.paused){a.play();b.classList.add('playing');}else{a.pause();b.classList.remove('playing');}
+/* MUSIC — AUTOPLAY on first touch */
+const bgm=document.getElementById('bgm'),mBtn=document.getElementById('musicBtn');
+function startMusic(){
+  if(bgm.paused){bgm.volume=0.4;bgm.play().then(()=>{mBtn.classList.add('playing');document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);}).catch(()=>{});}
 }
+document.addEventListener('click',startMusic);
+document.addEventListener('touchstart',startMusic);
+function toggleMusic(){
+  if(bgm.paused){startMusic();}else{bgm.pause();mBtn.classList.remove('playing');}
+}
+  
 </script>
 </body>
 </html>
