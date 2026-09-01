@@ -57,11 +57,13 @@ section{padding:80px 20px;max-width:1100px;margin:auto}
 .stat p{color:var(--muted);font-size:.9rem}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);margin-right:8px;animation:pulse 1.5s infinite}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
-.fcard{background:var(--card);border:1px solid #ffffff10;border-radius:16px;padding:30px;transition:.3s}
+.fcard{background:var(--card);border:1px solid #ffffff10;border-radius:16px;padding:30px;transition:.3s;display:flex;flex-direction:column}
 .fcard:hover{transform:translateY(-5px);border-color:var(--accent2)}
 .fcard i{font-size:2rem;color:var(--accent);margin-bottom:15px}
 .fcard h3{margin-bottom:8px}
 .fcard p{color:var(--muted);font-size:.92rem}
+.fcard .code{background:#08080f;border:1px solid #ffffff18;border-radius:10px;padding:12px;margin-top:12px;font-family:monospace;font-size:.8rem;color:var(--accent2)}
+.fcard .fbtn{margin-top:auto;padding-top:15px}
 .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
 .gal .gitem{border-radius:16px;overflow:hidden;border:1px solid #ffffff10;position:relative;aspect-ratio:16/10;background:var(--card)}
 .gal .gitem img{width:100%;height:100%;object-fit:cover;transition:.4s}
@@ -102,6 +104,7 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
 <div id="overlay" onclick="toggleDrawer(false)"></div>
 <div class="drawer" id="drawer">
   <a href="#home" onclick="toggleDrawer(false)"><i class="fa-solid fa-house"></i>Home</a>
+  <a href="#howto" onclick="toggleDrawer(false)"><i class="fa-solid fa-gamepad"></i>How to Play</a>
   <a href="#stats" onclick="toggleDrawer(false)"><i class="fa-solid fa-chart-line"></i>Server Stats</a>
   <a href="#features" onclick="toggleDrawer(false)"><i class="fa-solid fa-star"></i>Features</a>
   <a href="#gallery" onclick="toggleDrawer(false)"><i class="fa-solid fa-image"></i>Gallery</a>
@@ -113,14 +116,45 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
 <!-- HERO -->
 <header class="hero" id="home">
   <canvas id="particles"></canvas>
-  <div class="badge" data-aos="fade-down">🚀 Season 3 — Now Live!</div>
+  <div class="badge" data-aos="fade-down">🚀 Season 1 — Now Live!</div>
   <h1 data-aos="fade-up">Welcome to <span>HalfTopia</span><br><span id="typing"></span><span class="cursor">&nbsp;</span></h1>
   <p data-aos="fade-up" data-aos-delay="100">Growtopia Private Server dengan custom items, daily events, ekonomi seimbang, dan komunitas yang seru. Gratis 100%!</p>
   <div data-aos="fade-up" data-aos-delay="200">
-    <a href="shop.html" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Play Now</a>
+    <a href="#howto" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Play Now</a>
     <a href="#features" class="btn btn-ghost"><i class="fa-solid fa-circle-info"></i> Learn More</a>
   </div>
 </header>
+
+<!-- HOW TO PLAY -->
+<section id="howto" data-aos="fade-up">
+  <h2 class="sec-title">🎮 How to Play</h2>
+  <p class="sec-sub">Pilih platform kamu dan ikuti langkahnya!</p>
+  <div class="grid">
+    <div class="fcard" data-aos="fade-up">
+      <i class="fa-brands fa-android"></i><h3>📱 Android (APK)</h3>
+      <p>Download APK HalfTopia langsung, install, dan main!</p>
+      <div class="fbtn"><a href="https://www.mediafire.com/file/g7by0svsx8rrfg6/Halftopia.apk/file" target="_blank" class="btn btn-primary" style="padding:10px 22px;font-size:.9rem"><i class="fa-solid fa-download"></i> Download APK</a></div>
+    </div>
+    <div class="fcard" data-aos="fade-up" data-aos-delay="100">
+      <i class="fa-brands fa-apple"></i><h3>🍎 iOS (Surge 5)</h3>
+      <p>Play via Surge 5 tunnel untuk perangkat iPhone/iPad.</p>
+      <div class="fbtn"><a href="https://gtpshosting.web.id/ios/Halftopia" target="_blank" class="btn btn-primary" style="padding:10px 22px;font-size:.9rem"><i class="fa-solid fa-download"></i> iOS Host</a></div>
+    </div>
+    <div class="fcard" data-aos="fade-up" data-aos-delay="200">
+      <i class="fa-solid fa-tower-broadcast"></i><h3>⚡ Power Tunnel</h3>
+      <p>Tunnel resmi dari gtpshosting — paling gampang buat pemula!</p>
+      <div class="fbtn"><a href="https://gtpshosting.web.id/raw/Halftopia" target="_blank" class="btn btn-primary" style="padding:10px 22px;font-size:.9rem"><i class="fa-solid fa-bolt"></i> Get Tunnel</a></div>
+    </div>
+    <div class="fcard" data-aos="fade-up" data-aos-delay="300">
+      <i class="fa-brands fa-windows"></i><h3>💻 Windows (Hosts)</h3>
+      <p>Edit file hosts di <b>C:\Windows\System32\drivers\etc</b>, lalu tambahkan:</p>
+      <div class="code">134.209.100.90 www.growtopia1.com<br>134.209.100.90 www.growtopia2.com</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:35px">
+    <a href="#" class="btn btn-primary"><i class="fa-brands fa-discord"></i> Join Discord Community</a>
+  </div>
+</section>
 
 <!-- STATS -->
 <section id="stats" data-aos="fade-up">
@@ -160,7 +194,7 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
 <section id="faq" data-aos="fade-up">
   <h2 class="sec-title">❓ FAQ</h2>
   <p class="sec-sub">Pertanyaan yang sering ditanyain</p>
-  <div class="faq-item"><button class="faq-q">Cara join server HalfTopia? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>Download aplikasi GTPS launcher dari link official kami, install, lalu login. Panduan lengkap ada di Discord server kami.</p></div></div>
+  <div class="faq-item"><button class="faq-q">Cara join server HalfTopia? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>Buka section <b>How to Play</b> di halaman ini, pilih platform kamu (Android/iOS/Windows), ikuti langkahnya, lalu login. Ada masalah? Tanya di Discord kami!</p></div></div>
   <div class="faq-item"><button class="faq-q">Cara beli item di shop? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>Buka halaman Shop, pilih item, klik Add to Cart, lalu Checkout. Kamu akan diarahkan ke WhatsApp admin.</p></div></div>
   <div class="faq-item"><button class="faq-q">Apakah bisa refund? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>Ya, refund tersedia sesuai Terms of Service kami. Item yang belum dikirim bisa refund 100%.</p></div></div>
   <div class="faq-item"><button class="faq-q">Apakah server ini P2W? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>Tidak! Ekonomi kami seimbang dan semua item di shop juga bisa didapat lewat gameplay.</p></div></div>
@@ -171,7 +205,7 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
   <div class="cta">
     <h2>🎯 Siap Bergabung?</h2>
     <p>Ratusan item, event harian, dan komunitas seru nungguin kamu!</p>
-    <a href="shop.html" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Play Now</a>
+    <a href="#howto" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Play Now</a>
   </div>
 </section>
 
@@ -181,7 +215,7 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
   <div class="socials">
     <a href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
     <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-    <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <a href="https://www.mediafire.com/file/g7by0svsx8rrfg6/Halftopia.apk/file" target="_blank" aria-label="Download APK"><i class="fa-brands fa-android"></i></a>
   </div>
   <p><a href="tos.html">Terms of Service</a> · <a href="tos.html#refund">Refund Policy</a></p>
   <p style="margin-top:12px;font-size:.8rem">© 2025 HalfTopia. All rights reserved.</p>
@@ -265,4 +299,5 @@ function toggleMusic(){
 }
 </script>
 </body>
-</html>
+                          </html>
+                                                                                                                             
