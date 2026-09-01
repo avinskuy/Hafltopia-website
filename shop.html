@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HalfTopia Shop - Get Your Exclusive Assets!</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+  body { background: #0b0d13; color: #fff; min-height: 100vh; padding-bottom: 40px; }
+
+  /* ===== HEADER ===== */
+  .shop-header { display: flex; align-items: center; gap: 15px; padding: 40px 20px 20px; max-width: 900px; margin: auto; }
+  .shop-header .shop-icon {
+    width: 60px; height: 60px; border-radius: 12px; font-size: 32px;
+    background: linear-gradient(135deg, #2d6cdf, #7b5cff);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .shop-header h1 { font-size: 26px; }
+  .shop-header p { color: #8a8f9e; font-size: 14px; }
+
+  /* ===== CATEGORY TAB ===== */
+  .tabs { max-width: 900px; margin: 0 auto 20px; padding: 0 20px; }
+  .tab {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #2d6cdf, #4db8ff);
+    padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 14px;
+  }
+
+  /* ===== PRODUCT GRID ===== */
+  .grid { max-width: 900px; margin: auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .product {
+    background: #16181f; border-radius: 12px; overflow: hidden;
+    border: 1px solid #23262f; transition: .3s; display: flex; flex-direction: column;
+  }
+  .product:hover { border-color: #2d6cdf; transform: translateY(-4px); }
+  .product .img {
+    height: 160px; background: linear-gradient(180deg, #6db3f2 0%, #a8d4f5 100%);
+    display: flex; align-items: center; justify-content: center; font-size: 60px;
+    position: relative;
+  }
+  /* dummy background ala growtopia */
+  .product .img::before {
+    content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 35px;
+    background: linear-gradient(180deg, #7ac74f 50%, #5d8f3a 50%);
+  }
+  .product .info { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; }
+  .product .name { font-weight: 700; font-size: 15px; }
+  .product .qty { color: #8a8f9e; font-size: 12px; margin-top: 4px; }
+  .product .price { font-weight: 800; font-size: 17px; margin-top: 10px; }
+  .product .add {
+    margin-top: 12px; background: linear-gradient(135deg, #2d6cdf, #4db8ff); border: none;
+    color: #fff; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: .2s;
+  }
+  .product .add:hover { filter: brightness(1.15); }
+  .product .add.in-cart { background: #22304a; color: #4db8ff; }
+
+  /* ===== CART BAR (mobile) ===== */
+  .cartbar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    background: #16181f; border-top: 1px solid #23262f;
+    padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .cartbar .total { font-weight: 700; }
+  .cartbar .total span { color: #4db8ff; }
+  .cartbar button {
+    background: linear-gradient(135deg, #2d6cdf, #4db8ff); border: none; color: #fff;
+    padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer;
+  }
+  .cartbar button:disabled { background: #22304a; color: #5a6478; cursor: not-allowed; }
+
+  /* ===== CHECKOUT MODAL ===== */
+  .overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7);
+    z-index: 100; align-items: flex-end; justify-content: center;
+  }
+  .overlay.open { display: flex; }
+  .modal {
+    background: #16181f; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+    border-radius: 20px 20px 0 0; padding: 24px; border: 1px solid #23262f;
+  }
+  .modal h2 { font-size: 20px; margin-bottom: 5px; }
+  .modal .sub { color: #8a8f9e; font-size: 13px; margin-bottom: 20px; }
+  .modal label { display: block; font-size: 13px; font-weight: 600; margin: 15px 0 6px; }
+  .modal input, .modal textarea {
+    width: 100%; background: #0b0d13; border: 1px solid #2a2e3a; color: #fff;
+    padding: 12px 14px; border-radius: 8px; font-size: 14px; outline: none;
+  }
+  .modal input:focus, .modal textarea:focus { border-color: #2d6cdf; }
+  .modal .small { color: #5a6478; font-size: 11px; margin-top: 4px; }
+  .cart-items { background: #0b0d13; border: 1px solid #2a2e3a; border-radius: 10px; padding: 12px 14px; margin-top: 10px; }
+  .cart-item { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; color: #c8cdd8; }
+  .cart-item .rm { color: #ff5b5b; cursor: pointer; margin-left: 10px; }
+  .cart-total { display: flex; justify-content: space-between; font-weight: 800; border-top: 1px solid #2a2e3a; margin-top: 8px; padding-top: 10px; }
+  .btn-checkout {
+    width: 100%; margin-top: 20px; background: linear-gradient(135deg, #2d6cdf, #4db8ff);
+    border: none; color: #fff; padding: 15px; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer;
+  }
+  .btn-checkout:disabled { background: #22304a; color: #5a6478; cursor: not-allowed; }
+  .btn-close { background: none; border: none; color: #8a8f9e; font-size: 14px; cursor: pointer; margin-top: 12px; width: 100%; }
+
+  /* ===== NOTES ===== */
+  .notes {
+    max-width: 900px; margin: 25px auto 0; padding: 16px 20px; margin-left: 20px; margin-right: 20px;
+    background: linear-gradient(135deg, #2d6cdf, #1a6fd4); border-radius: 12px; font-size: 13px; line-height: 1.8;
+  }
+  .notes b { display: block; margin-bottom: 5px; }
+
+  @media (min-width: 700px) {
+    .overlay { align-items: center; }
+    .modal { border-radius: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="shop-header">
+  <div class="shop-icon">🌌</div>
+  <div>
+    <h1>HalfTopia Shop</h1>
+    <p>Get your exclusive assets for the game!</p>
+  </div>
+</div>
+
+<!-- TAB -->
+<div class="tabs">
+  <span class="tab">📦 Custom Items</span>
+</div>
+
+<!-- PRODUCTS -->
+<div class="grid" id="grid"></div>
+
+<!-- NOTES -->
+<div class="notes">
+  <b>Important Notes:</b>
+  • Make sure your HalfTopia GrowID is correct<br>
+  • Setelah checkout, admin akan memproses pesanan via WhatsApp/Discord<br>
+  • Item dikirim langsung in-game ke World yang lo tulis
+</div>
+
+<!-- CART BAR -->
+<div class="cartbar">
+  <div class="total">Total: <span id="cartTotal">Rp 0</span></div>
+  <button id="btnCart" onclick="openCheckout()" disabled>🛒 Checkout</button>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>🛒 Checkout</h2>
+    <p class="sub">Fill in your game details to proceed</p>
+
+    <div class="cart-items" id="cartItems"></div>
+
+    <label>GrowID *</label>
+    <input type="text" id="growid" placeholder="Your GrowID">
+
+    <label>World Name *</label>
+    <input type="text" id="world" placeholder="Your World Name">
+
+    <label>Email (Optional)</label>
+    <input type="email" id="email" placeholder="Your Email (Optional)">
+    <p class="small">For order confirmation</p>
+
+    <button class="btn-checkout" id="btnCheckout" onclick="checkout()">Kirim Pesanan via WhatsApp</button>
+    <button class="btn-close" onclick="closeCheckout()">Tutup</button>
+  </div>
+</div>
+
+<script>
+// ===== DAFTAR PRODUK (ganti icon jadi gambar lo: pakai <img src="..."> ) =====
+const products = [
+  { id: 1, name: "Buster Criminal",   price: 300000, icon: "🤖" },
+  { id: 2, name: "Mario '85 MX",      price: 250000, icon: "🦍" },
+  { id: 3, name: "Ultra M",           price: 150000, icon: "🧟" },
+  { id: 4, name: "Boyfriend - FNF",   price: 175000, icon: "🎮" },
+  { id: 5, name: "Antagon",           price: 150000, icon: "⚔️" },
+  { id: 6, name: "Mario Smash",       price: 100000, icon: "🍄" },
+  { id: 7, name: "Golem of Lago",     price: 100000, icon: "🗿" },
+  { id: 8, name: "Iron Reign",        price: 80000,  icon: "🥷" },
+  { id: 9, name: "Sonic Hedgehog",    price: 80000,  icon: "🦔" },
+  { id: 10, name: "Classified Luigi", price: 150000, icon: "🟢" },
+  { id: 11, name: "Tricky",           price: 500000, icon: "👹" },
+  { id: 12, name: "Abyssal Sword",    price: 1200000, icon: "🗡️" },
+  { id: 13, name: "Abyssal Dragon",   price: 1200000, icon: "🐉" },
+  { id: 14, name: "Abyssal Tornado Aura", price: 1000000, icon: "🌪️" },
+  { id: 15, name: "Blackhole Aura",   price: 150000, icon: "🕳️" },
+  { id: 16, name: "Bluehole Aura",    price: 150000, icon: "💠" },
+  { id: 17, name: "Crimson Bloodstrike Blade", price: 250000, icon: "🩸" },
+  { id: 18, name: "Kyubi Six Tails",  price: 1000000, icon: "🦊" },
+];
+
+// GANTI dengan nomor WhatsApp admin lo (format internasional tanpa +)
+const WA_NUMBER = "6281234567890";
+
+let cart = {}; // {id: qty}
+
+function formatRupiah(n) {
+  return "Rp " + n.toLocaleString("id-ID");
+}
+
+function renderProducts() {
+  document.getElementById("grid").innerHTML = products.map(p => `
+    <div class="product">
+      <div class="img">${p.icon}</div>
+      <div class="info">
+        <div class="name">${p.name}</div>
+        <div class="qty">1x ${p.name}</div>
+        <div class="price">${formatRupiah(p.price)}</div>
+        <button class="add" id="btn-p.id"onclick="addToCart({p.id}" onclick="addToCart(p.id"onclick="addToCart({p.id})">+ Keranjang</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  updateCart();
+}
+
+function removeFromCart(id) {
+  delete cart[id];
+  updateCart();
+}
+
+function updateCart() {
+  const ids = Object.keys(cart);
+  const total = ids.reduce((sum, id) => sum + products.find(p => p.id == id).price * cart[id], 0);
+
+  document.getElementById("cartTotal").textContent = formatRupiah(total);
+  document.getElementById("btnCart").disabled = ids.length === 0;
+
+  // update tombol produk
+  products.forEach(p => {
+    const btn = document.getElementById("btn-" + p.id);
+    if (!btn) return;
+    if (cart[p.id]) {
+      btn.textContent = `✓ Di keranjang (${cart[p.id]})`;
+      btn.classList.add("in-cart");
+    } else {
+      btn.textContent = "+ Keranjang";
+      btn.classList.remove("in-cart");
+    }
+  });
+
+  // render isi cart di modal
+  document.getElementById("cartItems").innerHTML = ids.length === 0
+    ? `<div style="color:#5a6478; font-size:13px;">Belum ada item dipilih</div>`
+    : ids.map(id => {
+        const p = products.find(x => x.id == id);
+        return `<div class="cart-item">
+          <span>p.icon{p.icon}p.icon{p.name} ×${cart[id]}</span>
+          <span>formatRupiah(p.price∗cart[id])<spanclass="rm"onclick="removeFromCart({formatRupiah(p.price * cart[id])}<span class="rm" onclick="removeFromCart(formatRupiah(p.price∗cart[id])<spanclass="rm"onclick="removeFromCart({id})">✕</span></span>
+        </div>`;
+      }).join("") +
+      `<div class="cart-total"><span>Total</span><span style="color:#4db8ff">${formatRupiah(total)}</span></div>`;
+}
+
+function openCheckout() { document.getElementById("overlay").classList.add("open"); }
+function closeCheckout() { document.getElementById("overlay").classList.remove("open"); }
+
+function checkout() {
+  const growid = document.getElementById("growid").value.trim();
+  const world = document.getElementById("world").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const ids = Object.keys(cart);
+
+  if (ids.length === 0) return alert("Pilih item dulu!");
+  if (!growid) return alert("GrowID wajib diisi!");
+  if (!world) return alert("World Name wajib diisi!");
+
+  let msg = "🌌 *HALFTOPIA SHOP - NEW ORDER* 🌌\n━━━━━━━━━━━━━━━━\n";
+  let total = 0;
+  ids.forEach(id => {
+    const p = products.find(x => x.id == id);
+    msg += `\n🎮 p.name×{p.name} ×p.name×{cart[id]} = ${formatRupiah(p.price * cart[id])}`;
+    total += p.price * cart[id];
+  });
+  msg += `\n\n💰 *Total: ${formatRupiah(total)}*`;
+  msg += `\n━━━━━━━━━━━━━━━━\n👤 GrowID: growid\n🌍World:{growid}\n🌍 World:growid\n🌍World:{world}`;
+  if (email) msg += `\n📧 Email: ${email}`;
+
+  window.open(`https://wa.me/WANUMBER?text={WA_NUMBER}?text=WANUMBER?text={encodeURIComponent(msg)}`, "_blank");
+}
+
+renderProducts();
+updateCart();
+</script>
+
+</body>
+</html>
