@@ -4,410 +4,265 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HalfTopia - Growtopia Private Server</title>
-
-<!-- ===== FRAMEWORKS ===== -->
-<!-- AOS - Animate On Scroll -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<!-- Font Awesome Icons -->
+<meta name="description" content="HalfTopia - GTPS dengan custom items, daily events, dan ekonomi seimbang. Join sekarang!">
+<meta name="keywords" content="halftopia, growtopia private server, gtps">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { background: #0a0e27; color: #fff; overflow-x: hidden; font-family: 'Poppins', sans-serif; }
-  h1, h2, h3, .logo { font-family: 'Baloo 2', cursive; }
-
-  /* ===== NAVBAR ===== */
-  nav {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 40px; position: fixed; width: 100%; top: 0; z-index: 100;
-    background: rgba(10, 14, 39, 0.85); backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(77,184,255,.3);
-  }
-  nav .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; }
-  nav .logo img { height: 40px; border-radius: 8px; }
-  nav .logo span { color: #4db8ff; }
-  nav ul { display: flex; list-style: none; gap: 22px; align-items: center; }
-  nav ul a { color: #dfe8ff; text-decoration: none; font-weight: 600; font-size: 14px; transition: .3s; }
-  nav ul a:hover { color: #4db8ff; text-shadow: 0 0 12px rgba(77,184,255,.8); }
-  .btn-shop {
-    background: linear-gradient(135deg, #2d6cdf, #4db8ff);
-    padding: 8px 18px; border-radius: 20px; color: #fff !important; font-weight: bold;
-    box-shadow: 0 0 15px rgba(77,184,255,.4);
-  }
-  .hamburger { display: none; background: none; border: none; color: #4db8ff; font-size: 24px; cursor: pointer; }
-
-  /* ===== HERO ===== */
-  .hero {
-    min-height: 100vh; display: flex; flex-direction: column;
-    justify-content: center; align-items: center; text-align: center; padding: 100px 20px 40px;
-    background:
-      radial-gradient(ellipse at 70% 20%, rgba(120,90,255,.25), transparent 50%),
-      radial-gradient(ellipse at 20% 80%, rgba(45,108,223,.3), transparent 50%),
-      linear-gradient(180deg, #0a0e27 0%, #131b4d 50%, #0a0e27 100%);
-    position: relative;
-  }
-  .stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-  .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
-  @keyframes twinkle { 0%,100% { opacity:.2; } 50% { opacity:1; } }
-
-  /* Logo image besar di hero dengan animasi float */
-  .hero-logo-img {
-    width: min(420px, 80vw); border-radius: 24px; margin-bottom: 20px;
-    box-shadow: 0 0 60px rgba(77,184,255,.45), 0 20px 50px rgba(0,0,0,.5);
-    animation: float 4s ease-in-out infinite;
-  }
-  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
-
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2);
-    padding: 8px 22px; border-radius: 30px; margin-bottom: 25px; font-size: 14px; backdrop-filter: blur(5px);
-  }
-  .hero p.desc { max-width: 550px; color: #b8c6e8; margin-bottom: 30px; line-height: 1.7; }
-  .hero p.desc b { color: #4db8ff; }
-  .btn {
-    padding: 14px 34px; border-radius: 12px; text-decoration: none; font-weight: bold;
-    display: inline-flex; align-items: center; gap: 9px; margin: 5px; transition: .3s; font-size: 15px;
-  }
-  .btn-primary { background: linear-gradient(135deg, #2d6cdf, #4db8ff); color: #fff; box-shadow: 0 0 25px rgba(77,184,255,.35); }
-  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 45px rgba(77,184,255,.65); }
-  .btn-outline { border: 2px solid #4db8ff; color: #4db8ff; }
-  .btn-outline:hover { background: #4db8ff; color: #fff; box-shadow: 0 0 30px rgba(77,184,255,.5); }
-  .scroll-down { position: absolute; bottom: 20px; color: #8fa8d8; font-size: 13px; animation: bounce 2s infinite; }
-  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-
-  /* ===== STATS ===== */
-  .stats { display: flex; justify-content: center; gap: 60px; padding: 45px 20px; flex-wrap: wrap;
-    background: rgba(45,108,223,.08); border-top: 1px solid rgba(77,184,255,.2); border-bottom: 1px solid rgba(77,184,255,.2); }
-  .stat { text-align: center; }
-  .stat i { color: #4db8ff; font-size: 26px; margin-bottom: 8px; }
-  .stat h2 { color: #4db8ff; font-size: 34px; }
-  .stat p { color: #8fa8d8; font-size: 14px; }
-
-  /* ===== SECTIONS ===== */
-  section { padding: 80px 20px; max-width: 1100px; margin: auto; }
-  section h2 { text-align: center; font-size: 34px; margin-bottom: 8px; }
-  section h2 span { color: #4db8ff; }
-  section .sub { text-align: center; color: #8fa8d8; margin-bottom: 45px; font-size: 15px; }
-
-  /* ===== CARDS ===== */
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-  .card {
-    background: linear-gradient(160deg, #131b4d, #0e1438);
-    border: 1px solid rgba(77,184,255,.25); border-radius: 16px; padding: 25px; transition: .3s;
-  }
-  .card:hover { transform: translateY(-6px); border-color: #4db8ff; box-shadow: 0 15px 40px rgba(45,108,223,.3); }
-  .card h3 { color: #4db8ff; margin-bottom: 15px; font-size: 18px; display: flex; align-items: center; gap: 10px; }
-  .card h3 i { font-size: 22px; }
-  .card ol { margin-left: 18px; color: #c3d0ee; font-size: 14px; line-height: 1.9; }
-  .card a { color: #4db8ff; }
-  .card code, .host-box {
-    background: #0a0e27; padding: 2px 8px; border-radius: 5px; color: #7ee0ff;
-    font-family: monospace; font-size: 13px; word-break: break-all;
-  }
-  .host-box { display: block; padding: 10px 14px; margin: 6px 0; border-radius: 8px; border: 1px dashed rgba(77,184,255,.4); }
-
-  /* ===== FEATURES ===== */
-  .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-  .feat { text-align: center; background: linear-gradient(160deg, #131b4d, #0e1438);
-    border: 1px solid rgba(77,184,255,.25); border-radius: 16px; padding: 32px 20px; transition: .3s; }
-  .feat:hover { border-color: #4db8ff; transform: translateY(-6px); box-shadow: 0 15px 40px rgba(45,108,223,.3); }
-  .feat .icon {
-    width: 64px; height: 64px; margin: 0 auto 14px; border-radius: 16px; font-size: 26px;
-    background: linear-gradient(135deg, #2d6cdf, #7b5cff); display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 20px rgba(77,184,255,.35);
-  }
-  .feat h3 { color: #4db8ff; margin-bottom: 8px; font-size: 17px; }
-  .feat p { color: #9fb2d8; font-size: 13px; line-height: 1.6; }
-
-  /* ===== COMMUNITY ===== */
-  .social-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; }
-  .social-tabs a {
-    padding: 11px 24px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 14px;
-    background: rgba(255,255,255,.08); color: #dfe8ff; border: 1px solid rgba(255,255,255,.15);
-    transition: .3s; display: inline-flex; align-items: center; gap: 8px;
-  }
-  .social-tabs a:hover { background: #2d6cdf; border-color: #4db8ff; transform: translateY(-3px); }
-  .community-box {
-    background: linear-gradient(160deg, #131b4d, #0e1438); border: 1px solid rgba(77,184,255,.25);
-    border-radius: 18px; padding: 40px 30px; text-align: left;
-  }
-  .community-box h3 { font-size: 26px; margin-bottom: 15px; }
-  .community-box h3 span { color: #4db8ff; }
-  .community-box ul { list-style: none; color: #c3d0ee; font-size: 14px; line-height: 2.1; }
-  .community-box p { color: #8fa8d8; }
-
-  /* ===== TEAM ===== */
-  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-  .member { text-align: center; background: linear-gradient(160deg, #131b4d, #0e1438);
-    border: 1px solid rgba(77,184,255,.25); border-radius: 16px; padding: 30px 20px; transition: .3s; }
-  .member:hover { border-color: #4db8ff; transform: translateY(-6px); }
-  .avatar { width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 15px;
-    background: linear-gradient(135deg, #2d6cdf, #7b5cff); display: flex; align-items: center; justify-content: center; font-size: 32px;
-    box-shadow: 0 0 25px rgba(77,184,255,.4); }
-  .member h3 { font-size: 18px; }
-  .member p { color: #4db8ff; font-size: 13px; font-weight: 600; }
-
-  /* ===== FLOATING BUTTONS ===== */
-  .floating { position: fixed; right: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 10px; z-index: 99; }
-  .floating a {
-    width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 20px; color: #fff; text-decoration: none; box-shadow: 0 4px 18px rgba(0,0,0,.5); transition: .3s;
-  }
-  .floating a:hover { transform: scale(1.12); }
-  .fab-shop { background: linear-gradient(135deg, #2d6cdf, #4db8ff); }
-  .fab-dc { background: #5865F2; }
-  .fab-wa { background: #25D366; }
-
-  footer { text-align: center; padding: 32px 20px; color: #6b7fae; font-size: 13px;
-    border-top: 1px solid rgba(77,184,255,.2); background: #080b20; }
-  footer b { color: #4db8ff; }
-
-  /* ===== BACK TO TOP ===== */
-  .top-btn {
-    position: fixed; left: 18px; bottom: 18px; width: 46px; height: 46px; border-radius: 50%;
-    background: linear-gradient(135deg, #2d6cdf, #4db8ff); color: #fff; display: flex; align-items: center;
-    justify-content: center; text-decoration: none; font-size: 17px; z-index: 99;
-    opacity: 0; pointer-events: none; transition: .3s; box-shadow: 0 4px 18px rgba(0,0,0,.5);
-  }
-  .top-btn.show { opacity: 1; pointer-events: auto; }
-
-  @media (max-width: 700px) {
-    nav { padding: 10px 20px; }
-    nav ul { display: none; }
-    .hamburger { display: block; }
-    nav ul.open {
-      display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%;
-      background: rgba(10,14,39,.97); padding: 20px; border-bottom: 2px solid #2d6cdf;
-    }
-  }
+:root{--bg:#0b0b1a;--card:#141428;--accent:#7c5cff;--accent2:#00d4ff;--text:#e8e8f5;--muted:#9a9ab8;--green:#22c55e}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);overflow-x:hidden}
+#scrollbar{position:fixed;top:0;left:0;height:4px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:9999}
+/* ===== NAV ===== */
+.nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:rgba(11,11,26,.85);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid #ffffff12}
+.nav .logo{font-weight:800;font-size:1.3rem;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;display:flex;align-items:center;gap:8px}
+.nav .logo img{width:32px;height:32px;border-radius:8px}
+#menuBtn{background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+.drawer{position:fixed;top:0;right:-280px;width:260px;height:100%;background:var(--card);z-index:1001;padding:70px 25px;transition:right .35s ease;display:flex;flex-direction:column;gap:6px;box-shadow:-5px 0 30px rgba(0,0,0,.5)}
+.drawer.open{right:0}
+.drawer a{color:var(--text);text-decoration:none;padding:12px 14px;border-radius:10px;display:flex;align-items:center;gap:12px;transition:.2s}
+.drawer a:hover{background:linear-gradient(90deg,#7c5cff33,#00d4ff22);color:var(--accent2)}
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;opacity:0;pointer-events:none;transition:.3s}
+#overlay.show{opacity:1;pointer-events:auto}
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 20px 60px;position:relative}
+#particles{position:absolute;inset:0;z-index:0}
+.hero>*{position:relative;z-index:1}
+.badge{background:#7c5cff22;border:1px solid var(--accent);color:var(--accent2);padding:6px 16px;border-radius:99px;font-size:.85rem;margin-bottom:20px}
+.hero h1{font-size:clamp(2.4rem,7vw,4.5rem);font-weight:800;line-height:1.1}
+.hero h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent));background-size:200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:grad 4s linear infinite}
+@keyframes grad{to{background-position:200%}}
+.hero p{color:var(--muted);max-width:600px;margin:18px 0 30px}
+.cursor{display:inline-block;width:3px;background:var(--accent2);animation:blink .8s infinite;margin-left:2px}
+@keyframes blink{50%{opacity:0}}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:12px;font-weight:600;text-decoration:none;transition:.25s;cursor:pointer;border:none;font-size:1rem}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;animation:pulse 2.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 20px #7c5cff44}50%{box-shadow:0 0 40px #7c5cffaa}}
+.btn-primary:hover{transform:translateY(-3px)}
+.btn-ghost{background:#ffffff10;color:var(--text);border:1px solid #ffffff22;margin-left:12px}
+.btn-ghost:hover{background:#ffffff20}
+/* ===== SECTIONS ===== */
+section{padding:80px 20px;max-width:1100px;margin:auto}
+.sec-title{text-align:center;font-size:2rem;font-weight:800;margin-bottom:10px}
+.sec-sub{text-align:center;color:var(--muted);margin-bottom:45px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.stat{background:var(--card);border:1px solid #ffffff10;border-radius:16px;padding:28px;text-align:center;transition:.3s}
+.stat:hover{transform:translateY(-5px);border-color:var(--accent)}
+.stat i{font-size:1.8rem;color:var(--accent2);margin-bottom:12px}
+.stat h3{font-size:2rem;font-weight:800}
+.stat p{color:var(--muted);font-size:.9rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);margin-right:8px;animation:pulse 1.5s infinite}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.fcard{background:var(--card);border:1px solid #ffffff10;border-radius:16px;padding:30px;transition:.3s}
+.fcard:hover{transform:translateY(-5px);border-color:var(--accent2)}
+.fcard i{font-size:2rem;color:var(--accent);margin-bottom:15px}
+.fcard h3{margin-bottom:8px}
+.fcard p{color:var(--muted);font-size:.92rem}
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.gal .gitem{border-radius:16px;overflow:hidden;border:1px solid #ffffff10;position:relative;aspect-ratio:16/10;background:var(--card)}
+.gal .gitem img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.gal .gitem:hover img{transform:scale(1.08)}
+.gal .gcap{position:absolute;bottom:0;width:100%;padding:14px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-size:.9rem}
+.faq-item{background:var(--card);border:1px solid #ffffff10;border-radius:14px;margin-bottom:12px;overflow:hidden}
+.faq-q{width:100%;background:none;border:none;color:var(--text);padding:20px;font-size:1rem;font-weight:600;text-align:left;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.faq-q i{transition:.3s;color:var(--accent2)}
+.faq-item.active .faq-q i{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;color:var(--muted)}
+.faq-a p{padding:0 20px 20px;font-size:.92rem}
+.faq-item.active .faq-a{max-height:300px}
+/* CTA band */
+.cta{background:linear-gradient(90deg,#7c5cff22,#00d4ff11);border:1px solid #7c5cff44;border-radius:20px;padding:50px 25px;text-align:center}
+.cta h2{font-size:1.8rem;margin-bottom:10px}
+.cta p{color:var(--muted);margin-bottom:25px}
+/* Footer */
+footer{background:#08080f;border-top:1px solid #ffffff10;padding:40px 20px;text-align:center;color:var(--muted);font-size:.9rem}
+footer a{color:var(--accent2);text-decoration:none}
+footer .socials{margin:15px 0;display:flex;gap:20px;justify-content:center}
+footer .socials a{font-size:1.4rem;color:var(--muted);transition:.2s}
+footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
+#toTop{position:fixed;bottom:25px;right:25px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-size:1.1rem;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;z-index:999}
+#toTop.show{opacity:1;pointer-events:auto}
+#musicBtn{position:fixed;bottom:25px;left:25px;width:48px;height:48px;border-radius:50%;background:var(--card);border:1px solid #ffffff22;color:var(--text);font-size:1.1rem;cursor:pointer;z-index:999}
+#musicBtn.playing{color:var(--accent2);border-color:var(--accent2);animation:pulse 2s infinite}
+@media(max-width:640px){.btn-ghost{margin-left:0;margin-top:12px}}
 </style>
 </head>
 <body>
+<div id="scrollbar"></div>
 
-<!-- NAVBAR -->
-<nav>
-  <div class="logo"><img src="logo.png" alt="HalfTopia">HALF<span>TOPIA</span></div>
-  <ul id="menu">
-    <li><a href="#how-to-play"><i class="fa-solid fa-gamepad"></i> How to Play</a></li>
-    <li><a href="#features"><i class="fa-solid fa-star"></i> Features</a></li>
-    <li><a href="#about"><i class="fa-solid fa-book"></i> About</a></li>
-    <li><a href="#community"><i class="fa-solid fa-users"></i> Community</a></li>
-    <li><a href="#team"><i class="fa-solid fa-user-group"></i> Team</a></li>
-    <li><a href="shop.html" class="btn-shop"><i class="fa-solid fa-cart-shopping"></i> Shop</a></li>
-    <li><a href="https://discord.gg/dc69a5T5g" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a></li>
-  </ul>
-  <button class="hamburger" onclick="document.getElementById('menu').classList.toggle('open')"><i class="fa-solid fa-bars"></i></button>
+<!-- NAV -->
+<nav class="nav">
+  <div class="logo"><img src="logo.png" alt="HalfTopia">HalfTopia</div>
+  <button id="menuBtn" onclick="toggleDrawer(true)"><i class="fa-solid fa-bars"></i></button>
 </nav>
+<div id="overlay" onclick="toggleDrawer(false)"></div>
+<div class="drawer" id="drawer">
+  <a href="#home" onclick="toggleDrawer(false)"><i class="fa-solid fa-house"></i>Home</a>
+  <a href="#stats" onclick="toggleDrawer(false)"><i class="fa-solid fa-chart-line"></i>Server Stats</a>
+  <a href="#features" onclick="toggleDrawer(false)"><i class="fa-solid fa-star"></i>Features</a>
+  <a href="#gallery" onclick="toggleDrawer(false)"><i class="fa-solid fa-image"></i>Gallery</a>
+  <a href="#faq" onclick="toggleDrawer(false)"><i class="fa-solid fa-circle-question"></i>FAQ</a>
+  <a href="shop.html" onclick="toggleDrawer(false)"><i class="fa-solid fa-cart-shopping"></i>Shop</a>
+  <a href="tos.html" onclick="toggleDrawer(false)"><i class="fa-solid fa-file-contract"></i>Terms of Service</a>
+</div>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="stars" id="stars"></div>
-  <img src="logo.png" alt="HalfTopia" class="hero-logo-img" data-aos="zoom-in" data-aos-duration="900">
-  <div class="hero-tag" data-aos="fade-up" data-aos-delay="200"><i class="fa-solid fa-moon" style="color:#4db8ff"></i> HalfTopia Growtopia Private Server</div>
-  <p class="desc" data-aos="fade-up" data-aos-delay="350">
-    Join a stable Growtopia Private Server packed with <b>custom items</b>,
-    <b>fun daily events</b>, and a <b>balanced economy</b> — together with a friendly community!
-  </p>
-  <div data-aos="fade-up" data-aos-delay="500">
-    <a href="#how-to-play" class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</a>
-    <a href="https://discord.gg/dc69a5T5g" class="btn btn-outline" target="_blank"><i class="fa-brands fa-discord"></i> Join Discord</a>
-    <a href="shop.html" class="btn btn-outline"><i class="fa-solid fa-cart-shopping"></i> Shop</a>
+<header class="hero" id="home">
+  <canvas id="particles"></canvas>
+  <div class="badge" data-aos="fade-down">🚀 Season 3 — Now Live!</div>
+  <h1 data-aos="fade-up">Welcome to <span>HalfTopia</span><br><span id="typing"></span><span class="cursor">&nbsp;</span></h1>
+  <p data-aos="fade-up" data-aos-delay="100">Growtopia Private Server dengan custom items, daily events, ekonomi seimbang, dan komunitas yang seru. Gratis 100%!</p>
+  <div data-aos="fade-up" data-aos-delay="200">
+    <a href="shop.html" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Play Now</a>
+    <a href="#features" class="btn btn-ghost"><i class="fa-solid fa-circle-info"></i> Learn More</a>
   </div>
-  <div class="scroll-down">Scroll Down <i class="fa-solid fa-angles-down"></i></div>
-</div>
+</header>
 
 <!-- STATS -->
-<div class="stats">
-  <div class="stat" data-aos="fade-up"><i class="fa-solid fa-users"></i><h2>19.000+</h2><p>Registered Players</p></div>
-  <div class="stat" data-aos="fade-up" data-aos-delay="150"><i class="fa-solid fa-signal"></i><h2 id="online">...</h2><p>Players Online</p></div>
-  <div class="stat" data-aos="fade-up" data-aos-delay="300"><i class="fa-solid fa-clock"></i><h2>24/7</h2><p>Server Uptime</p></div>
-</div>
-
-<!-- HOW TO PLAY -->
-<section id="how-to-play">
-  <h2>How to <span>Play</span></h2>
-  <p class="sub">Please select the application you want to use!</p>
-  <div class="cards">
-
-    <div class="card" data-aos="fade-up">
-      <h3><i class="fa-solid fa-mobile-screen"></i> Halftopia Mobile APK</h3>
-      <ol>
-        <li>Uninstall Real Growtopia if you have it</li>
-        <li>Restart your device (optional but recommended)</li>
-        <li>Install <a href="https://www.mediafire.com/file/g7by0svsx8rrfg6/Halftopia.apk/file" target="_blank">Halftopia APK</a></li>
-        <li>Open Halftopia APK &amp; login with your account</li>
-      </ol>
-    </div>
-
-    <div class="card" data-aos="fade-up" data-aos-delay="100">
-      <h3><i class="fa-solid fa-shield-halved" style="color:#22c55e"></i> PowerTunnel (Android)</h3>
-      <ol>
-        <li>Install PowerTunnel APK</li>
-        <li>Open → Plugin → Hosts → Open the Setting</li>
-        <li>Enter: <code>https://gtpshosting.web.id/raw/Halftopia</code></li>
-        <li>Back, click "CONNECT", open Growtopia</li>
-      </ol>
-    </div>
-
-    <div class="card" data-aos="fade-up" data-aos-delay="200">
-      <h3><i class="fa-brands fa-windows" style="color:#38bdf8"></i> Windows (Hosts Edit)</h3>
-      <ol>
-        <li>Press <b>Win+R</b> → paste: <code>C:\Windows\System32\drivers\etc</code></li>
-        <li>Open hosts file with Notepad <b>(Run as Admin)</b></li>
-        <li>Add these lines at the bottom:</li>
-      </ol>
-      <span class="host-box">134.209.100.90 www.growtopia1.com</span>
-      <span class="host-box">134.209.100.90 www.growtopia2.com</span>
-      <ol start="4"><li>Save the file → launch Growtopia</li></ol>
-    </div>
-
-    <div class="card" data-aos="fade-up" data-aos-delay="300">
-      <h3><i class="fa-brands fa-apple"></i> Surge 5 (iPhone)</h3>
-      <ol>
-        <li>Install Surge 5 from App Store</li>
-        <li>Import Profile: <code>https://gtpshosting.web.id/ios/Halftopia</code></li>
-        <li>Allow VPN Configuration → Connect → Open Growtopia</li>
-      </ol>
-    </div>
-
+<section id="stats" data-aos="fade-up">
+  <h2 class="sec-title">📊 Live Server Stats</h2>
+  <p class="sec-sub">Data real-time langsung dari server kami</p>
+  <div class="stats">
+    <div class="stat"><i class="fa-solid fa-users"></i><h3 id="online">—</h3><p><span class="dot"></span>Players Online</p></div>
+    <div class="stat"><i class="fa-solid fa-server"></i><h3 id="srvStatus">Online</h3><p>Server Status</p></div>
+    <div class="stat"><i class="fa-solid fa-clock"></i><h3 id="lastUpd">—</h3><p>Last Update</p></div>
   </div>
 </section>
 
 <!-- FEATURES -->
-<section id="features">
-  <h2>Why Choose <span>HalfTopia?</span></h2>
-  <p class="sub">Check out the awesome features that make our server the best choice!</p>
-  <div class="feat-grid">
-    <div class="feat" data-aos="zoom-in"><div class="icon"><i class="fa-solid fa-bolt"></i></div><h3>Stable Server</h3><p>Reliable hosting with 24/7 uptime so you can play anytime, anywhere.</p></div>
-    <div class="feat" data-aos="zoom-in" data-aos-delay="100"><div class="icon"><i class="fa-solid fa-gift"></i></div><h3>Daily Events</h3><p>Fun daily &amp; weekly events with awesome prizes like DLs and custom items.</p></div>
-    <div class="feat" data-aos="zoom-in" data-aos-delay="200"><div class="icon"><i class="fa-solid fa-screwdriver-wrench"></i></div><h3>Cool Features</h3><p>Surgery, cooking, fishing, ship building, and challenging parkour worlds!</p></div>
-    <div class="feat" data-aos="zoom-in" data-aos-delay="300"><div class="icon"><i class="fa-solid fa-gem"></i></div><h3>Custom Items</h3><p>Exclusive items that you can only find on HalfTopia!</p></div>
-    <div class="feat" data-aos="zoom-in" data-aos-delay="400"><div class="icon"><i class="fa-solid fa-shield-halved"></i></div><h3>Anti-Cheat</h3><p>Strong moderation and zero-tolerance policy against scammers &amp; cheaters.</p></div>
-    <div class="feat" data-aos="zoom-in" data-aos-delay="500"><div class="icon"><i class="fa-solid fa-handshake"></i></div><h3>Friendly Community</h3><p>A welcoming community where creativity and collaboration come to life.</p></div>
+<section id="features" data-aos="fade-up">
+  <h2 class="sec-title">⭐ Why HalfTopia?</h2>
+  <p class="sec-sub">Fitur terbaik yang bikin betah main</p>
+  <div class="grid">
+    <div class="fcard" data-aos="fade-up"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Custom Items</h3><p>Ratusan item unik yang cuma ada di HalfTopia!</p></div>
+    <div class="fcard" data-aos="fade-up" data-aos-delay="100"><i class="fa-solid fa-calendar-days"></i><h3>Daily Events</h3><p>Event seru tiap hari dengan reward gede.</p></div>
+    <div class="fcard" data-aos="fade-up" data-aos-delay="200"><i class="fa-solid fa-shield-halved"></i><h3>Anti-Cheat</h3><p>Sistem keamanan aktif — no item editor, no cheater.</p></div>
+    <div class="fcard" data-aos="fade-up" data-aos-delay="300"><i class="fa-solid fa-coins"></i><h3>Balanced Economy</h3><p>Ekonomi seimbang, no P2W, semua fair!</p></div>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about">
-  <h2>Server <span>About</span></h2>
-  <p class="sub">Discover the story behind HalfTopia and what makes our community special!</p>
-  <div class="community-box" data-aos="fade-up">
-    <h3>HalfTopia | The Growtopia Private Server</h3>
-    <p style="margin-bottom:15px;"><i class="fa-solid fa-moon" style="color:#4db8ff"></i> WELCOME TO HALFTOPIA PRIVATE SERVER</p>
-    <p style="color:#c3d0ee; line-height:1.8; font-size:14px;">
-      <b style="color:#4db8ff;">Welcome to HalfTopia!</b> — a stable Growtopia Private Server
-      packed with custom items, fun daily events, and a balanced economy.
-      More than just a game, it's a space where creativity and exploration come to life.
-      <br><br>
-      Players can take on different roles — becoming a surgeon and saving lives, mastering the art of
-      cooking, fishing for rare catches, building ships for exploration, or creating challenging
-      parkour worlds filled with puzzles and obstacles.
-      <br><br>
-      <i class="fa-solid fa-bolt" style="color:#4db8ff"></i> <b style="color:#4db8ff;">KEEP IT FUN, KEEP IT FRIENDLY.</b>
-    </p>
+<!-- GALLERY -->
+<section id="gallery" data-aos="fade-up">
+  <h2 class="sec-title">🖼️ Gallery</h2>
+  <p class="sec-sub">Momen seru di dalam server</p>
+  <div class="gal">
+    <div class="gitem" data-aos="zoom-in"><img src="https://placehold.co/640x400/141428/7c5cff?text=Screenshot+1" alt="Event"><div class="gcap">🎉 Event World — Ganti dengan screenshot asli!</div></div>
+    <div class="gitem" data-aos="zoom-in" data-aos-delay="100"><img src="https://placehold.co/640x400/141428/00d4ff?text=Screenshot+2" alt="Custom item"><div class="gcap">⚔️ Custom Items — Ganti dengan screenshot asli!</div></div>
+    <div class="gitem" data-aos="zoom-in" data-aos-delay="200"><img src="https://placehold.co/640x400/141428/22c55e?text=Screenshot+3" alt="Community"><div class="gcap">👥 Community — Ganti dengan screenshot asli!</div></div>
   </div>
 </section>
 
-<!-- COMMUNITY -->
-<section id="community">
-  <h2>Server <span>Community</span></h2>
-  <p class="sub">Join our community to connect, explore, and shape the future of HalfTopia!</p>
-  <div class="social-tabs" data-aos="fade-up">
-    <a href="https://discord.gg/dc69a5T5g" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
-    <a href="https://chat.whatsapp.com/Bpt9FOpmJirL4HcBbLYhSi" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-    <a href="#"><i class="fa-brands fa-tiktok"></i> TikTok</a>
-  </div>
-  <div class="community-box" data-aos="fade-up" data-aos-delay="150">
-    <h3><i class="fa-solid fa-users" style="color:#4db8ff"></i> Player <span>Community</span></h3>
-    <p style="font-size:14px; margin-bottom:15px;">
-      Tempat berkumpulnya seluruh player HalfTopia.<br>
-      Share info, ngobrol, mabar, event, dan berbagai aktivitas seputar HalfTopia!
-    </p>
-    <h3 style="font-size:20px; margin:25px 0 10px;"><i class="fa-solid fa-scroll" style="color:#4db8ff"></i> Rules</h3>
-    <ul>
-      <li><i class="fa-solid fa-handshake" style="color:#4db8ff; width:22px"></i> Saling menghargai sesama player</li>
-      <li><i class="fa-solid fa-ban" style="color:#ff5b5b; width:22px"></i> Dilarang spam / flood chat</li>
-      <li><i class="fa-solid fa-ban" style="color:#ff5b5b; width:22px"></i> Dilarang toxic, rasis, SARA, atau provokasi</li>
-      <li><i class="fa-solid fa-ban" style="color:#ff5b5b; width:22px"></i> Dilarang melakukan penipuan / scam</li>
-      <li><i class="fa-solid fa-ban" style="color:#ff5b5b; width:22px"></i> Dilarang menyebarkan link yang mencurigakan</li>
-      <li><i class="fa-solid fa-ban" style="color:#ff5b5b; width:22px"></i> Dilarang promosi tanpa izin Staff</li>
-      <li><i class="fa-solid fa-bullhorn" style="color:#4db8ff; width:22px"></i> Gunakan grup sesuai dengan topik dan fungsinya</li>
-      <li><i class="fa-solid fa-lock" style="color:#4db8ff; width:22px"></i> Jangan menyebarkan informasi pribadi member lain</li>
-      <li><i class="fa-solid fa-triangle-exclamation" style="color:#fbbf; width:22px"></i> Ikuti arahan Staff demi kenyamanan bersama</li>
-      <li><i class="fa-solid fa-life-ring" style="color:#4db8ff; width:22px"></i> Jika menemukan masalah, segera laporkan kepada Staff/Helper</li>
-    </ul>
-    <br>
-    <a href="https://discord.gg/dc69a5T5g" class="btn btn-primary" target="_blank"><i class="fa-brands fa-discord"></i> Join Discord</a>
-    <a href="https://chat.whatsapp.com/Bpt9FOpmJirL4HcBbLYhSi" class="btn btn-outline" target="_blank"><i class="fa-brands fa-whatsapp"></i> Join WhatsApp</a>
+<!-- FAQ -->
+<section id="faq" data-aos="fade-up">
+  <h2 class="sec-title">❓ FAQ</h2>
+  <p class="sec-sub">Pertanyaan yang sering ditanyain</p>
+  <div class="faq-item"><button class="faq-q">Cara join server HalfTopia? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>Download aplikasi GTPS launcher dari link official kami, install, lalu login. Panduan lengkap ada di Discord server kami.</p></div></div>
+  <div class="faq-item"><button class="faq-q">Cara beli item di shop? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>Buka halaman Shop, pilih item, klik Add to Cart, lalu Checkout. Kamu akan diarahkan ke WhatsApp admin.</p></div></div>
+  <div class="faq-item"><button class="faq-q">Apakah bisa refund? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>Ya, refund tersedia sesuai Terms of Service kami. Item yang belum dikirim bisa refund 100%.</p></div></div>
+  <div class="faq-item"><button class="faq-q">Apakah server ini P2W? <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>Tidak! Ekonomi kami seimbang dan semua item di shop juga bisa didapat lewat gameplay.</p></div></div>
+</section>
+
+<!-- CTA -->
+<section data-aos="fade-up">
+  <div class="cta">
+    <h2>🎯 Siap Bergabung?</h2>
+    <p>Ratusan item, event harian, dan komunitas seru nungguin kamu!</p>
+    <a href="shop.html" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Play Now</a>
   </div>
 </section>
 
-<!-- TEAM -->
-<section id="team">
-  <h2>Server <span>Team</span></h2>
-  <p class="sub">The Architects of Seamless Server Operations</p>
-  <div class="team-grid">
-    <div class="member" data-aos="zoom-in">
-      <div class="avatar"><i class="fa-solid fa-crown"></i></div>
-      <h3>Owner</h3><p>Server Owner</p>
-    </div>
-    <div class="member" data-aos="zoom-in" data-aos-delay="100">
-      <div class="avatar"><i class="fa-solid fa-shield-halved"></i></div>
-      <h3>Admin</h3><p>Server Admin</p>
-    </div>
-    <div class="member" data-aos="zoom-in" data-aos-delay="200">
-      <div class="avatar"><i class="fa-solid fa-handshake-angle"></i></div>
-      <h3>Helper</h3><p>Server Helper</p>
-    </div>
-  </div>
-</section>
-
-<!-- FLOATING BUTTONS -->
-<div class="floating">
-  <a href="shop.html" class="fab-shop" title="Shop"><i class="fa-solid fa-cart-shopping"></i></a>
-  <a href="https://discord.gg/dc69a5T5g" class="fab-dc" title="Discord" target="_blank"><i class="fa-brands fa-discord"></i></a>
-  <a href="https://chat.whatsapp.com/Bpt9FOpmJirL4HcBbLYhSi" class="fab-wa" title="WhatsApp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-</div>
-
-<!-- BACK TO TOP -->
-<a href="#" class="top-btn" id="topBtn"><i class="fa-solid fa-arrow-up"></i></a>
-
+<!-- FOOTER -->
 <footer>
-  © 2025 <b>HalfTopia</b> Private Server. Growtopia adalah milik Ubisoft.<br>
-  Website ini tidak berafiliasi dengan Ubisoft.
+  <p><strong style="color:var(--text)">HalfTopia</strong> — Growtopia Private Server</p>
+  <div class="socials">
+    <a href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+    <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+  </div>
+  <p><a href="tos.html">Terms of Service</a> · <a href="tos.html#refund">Refund Policy</a></p>
+  <p style="margin-top:12px;font-size:.8rem">© 2025 HalfTopia. All rights reserved.</p>
 </footer>
 
-<!-- AOS Script -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i></button>
+<button id="musicBtn" onclick="toggleMusic()"><i class="fa-solid fa-music"></i></button>
+<audio id="bgm" loop src="music.mp3"></audio>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-  AOS.init({ once: true, duration: 800, offset: 80 });
+AOS.init({duration:700,once:true});
 
-  // Bintang random
-  const stars = document.getElementById('stars');
-  for (let i = 0; i < 90; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 2.5 + 1;
-    s.style.cssText = `width:sizepx;height:{size}px;height:sizepx;height:{size}px;top:Math.random()∗100{Math.random()*100}%;left:Math.random()∗100{Math.random()*100}%;animation-delay:${Math.random()*3}s`;
-    stars.appendChild(s);
-  }
+/* DRAWER */
+function toggleDrawer(open){
+  document.getElementById('drawer').classList.toggle('open',open);
+  document.getElementById('overlay').classList.toggle('show',open);
+}
 
-  // Back to top
-  window.addEventListener('scroll', () => {
-    document.getElementById('topBtn').classList.toggle('show', window.scrollY > 400);
+/* SCROLL PROGRESS + TO TOP */
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  document.getElementById('scrollbar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  document.getElementById('toTop').classList.toggle('show',h.scrollTop>400);
+});
+
+/* TYPING EFFECT */
+const words=["Growtopia Private Server","Custom Items","Daily Events","Balanced Economy"];
+let wi=0,ci=0,del=false;
+(function type(){
+  const w=words[wi];
+  document.getElementById('typing').textContent=w.substring(0,ci);
+  if(!del&&ci<w.length){ci++;setTimeout(type,80);}
+  else if(del&&ci>0){ci--;setTimeout(type,40);}
+  else{del=!del;if(!del)wi=(wi+1)%words.length;setTimeout(type,del?1800:400);}
+})();
+
+/* PARTICLES */
+const cv=document.getElementById('particles'),ctx=cv.getContext('2d');
+let stars=[];
+function resize(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;}
+resize();window.addEventListener('resize',resize);
+for(let i=0;i<90;i++)stars.push({x:Math.random()*2000,y:Math.random()*1200,r:Math.random()*1.8+.4,s:Math.random()*.4+.1});
+(function anim(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  stars.forEach(st=>{
+    st.y-=st.s;if(st.y<0){st.y=cv.height;st.x=Math.random()*cv.width;}
+    ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,7);
+    ctx.fillStyle=Math.random()>.5?'#7c5cff88':'#00d4ff88';ctx.fill();
   });
+  requestAnimationFrame(anim);
+})();
 
-  // Player online (simulasi - nanti ganti API asli)
-  function updateOnline() {
-    document.getElementById('online').textContent = Math.floor(Math.random() * 120) + 30;
+/* FAQ */
+document.querySelectorAll('.faq-q').forEach(b=>b.addEventListener('click',()=>{
+  const it=b.parentElement,was=it.classList.contains('active');
+  document.querySelectorAll('.faq-item').forEach(f=>f.classList.remove('active'));
+  if(!was)it.classList.add('active');
+}));
+
+/* REAL PLAYER COUNT */
+async function updateOnline(){
+  try{
+    const res=await fetch('players.json?t='+Date.now());
+    const data=await res.json();
+    document.getElementById('online').textContent=data.online;
+    document.getElementById('srvStatus').textContent=data.updated?'Online':'Offline';
+    const d=new Date(data.updated);
+    document.getElementById('lastUpd').textContent=d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  }catch{
+    document.getElementById('online').textContent='—';
+    document.getElementById('srvStatus').textContent='Checking...';
   }
-  updateOnline();
-  setInterval(updateOnline, 10000);
-</script>
+}
+updateOnline();setInterval(updateOnline,30000);
 
+/* MUSIC */
+function toggleMusic(){
+  const a=document.getElementById('bgm'),b=document.getElementById('musicBtn');
+  if(a.paused){a.play();b.classList.add('playing');}else{a.pause();b.classList.remove('playing');}
+}
+</script>
 </body>
 </html>
