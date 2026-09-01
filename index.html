@@ -76,7 +76,6 @@ section{padding:80px 20px;max-width:1100px;margin:auto}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;color:var(--muted)}
 .faq-a p{padding:0 20px 20px;font-size:.92rem}
 .faq-item.active .faq-a{max-height:300px}
-/* CTA band */
 .cta{background:linear-gradient(90deg,#7c5cff22,#00d4ff11);border:1px solid #7c5cff44;border-radius:20px;padding:50px 25px;text-align:center}
 .cta h2{font-size:1.8rem;margin-bottom:10px}
 .cta p{color:var(--muted);margin-bottom:25px}
@@ -109,6 +108,7 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
   <a href="#features" onclick="toggleDrawer(false)"><i class="fa-solid fa-star"></i>Features</a>
   <a href="#gallery" onclick="toggleDrawer(false)"><i class="fa-solid fa-image"></i>Gallery</a>
   <a href="#faq" onclick="toggleDrawer(false)"><i class="fa-solid fa-circle-question"></i>FAQ</a>
+  <a href="#community" onclick="toggleDrawer(false)"><i class="fa-solid fa-users"></i>Community</a>
   <a href="shop.html" onclick="toggleDrawer(false)"><i class="fa-solid fa-cart-shopping"></i>Shop</a>
   <a href="tos.html" onclick="toggleDrawer(false)"><i class="fa-solid fa-file-contract"></i>Terms of Service</a>
 </div>
@@ -152,7 +152,7 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
     </div>
   </div>
   <div style="text-align:center;margin-top:35px">
-    <a href="#" class="btn btn-primary"><i class="fa-brands fa-discord"></i> Join Discord Community</a>
+    <a href="https://discord.gg/euQdzpgFK" target="_blank" class="btn btn-primary"><i class="fa-brands fa-discord"></i> Join Discord Community</a>
   </div>
 </section>
 
@@ -209,12 +209,32 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
   </div>
 </section>
 
+<!-- COMMUNITY -->
+<section id="community" data-aos="fade-up">
+  <h2 class="sec-title">💬 Join Our Community</h2>
+  <p class="sec-sub">Share info, mabar, ikut event, dan bertemu player lain!</p>
+  <div class="grid" style="max-width:700px;margin:auto">
+    <div class="fcard" data-aos="fade-up" style="text-align:center;align-items:center">
+      <i class="fa-brands fa-discord" style="color:#5865F2"></i>
+      <h3>Discord Server</h3>
+      <p>Chat, event announcement, support, dan komunitas paling aktif!</p>
+      <div class="fbtn"><a href="https://discord.gg/euQdzpgFK" target="_blank" class="btn btn-primary" style="background:linear-gradient(90deg,#5865F2,#7c5cff)"><i class="fa-brands fa-discord"></i> Join Discord</a></div>
+    </div>
+    <div class="fcard" data-aos="fade-up" data-aos-delay="100" style="text-align:center;align-items:center">
+      <i class="fa-brands fa-whatsapp" style="color:#25D366"></i>
+      <h3>WhatsApp Group</h3>
+      <p>Grup player community — info cepat, ngobrol santai, mabar!</p>
+      <div class="fbtn"><a href="https://chat.whatsapp.com/Bpt9FOpmJirL4HcBbLYhSi" target="_blank" class="btn btn-primary" style="background:linear-gradient(90deg,#25D366,#128C7E)"><i class="fa-brands fa-whatsapp"></i> Join WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <p><strong style="color:var(--text)">HalfTopia</strong> — Growtopia Private Server</p>
   <div class="socials">
-    <a href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
-    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+    <a href="https://discord.gg/euQdzpgFK" target="_blank" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+    <a href="https://chat.whatsapp.com/Bpt9FOpmJirL4HcBbLYhSi" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
     <a href="https://www.mediafire.com/file/g7by0svsx8rrfg6/Halftopia.apk/file" target="_blank" aria-label="Download APK"><i class="fa-brands fa-android"></i></a>
   </div>
   <p><a href="tos.html">Terms of Service</a> · <a href="tos.html#refund">Refund Policy</a></p>
@@ -299,5 +319,4 @@ function toggleMusic(){
 }
 </script>
 </body>
-                          </html>
-                                                                                                                             
+</html>
