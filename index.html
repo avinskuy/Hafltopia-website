@@ -90,11 +90,32 @@ footer .socials a:hover{color:var(--accent2);transform:translateY(-3px)}
 #musicBtn{position:fixed;bottom:25px;left:25px;width:48px;height:48px;border-radius:50%;background:var(--card);border:1px solid #ffffff22;color:var(--text);font-size:1.1rem;cursor:pointer;z-index:999}
 #musicBtn.playing{color:var(--accent2);border-color:var(--accent2);animation:pulse 2s infinite}
 @media(max-width:640px){.btn-ghost{margin-left:0;margin-top:12px}}
+  /* ===== WELCOME OVERLAY ===== */
+#welcome{position:fixed;inset:0;background:rgba(5,5,12,.75);backdrop-filter:blur(12px);z-index:5000;display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .5s,visibility .5s}
+#welcome.hide{opacity:0;visibility:hidden}
+.wbox{background:rgba(20,20,40,.92);border:1px solid #7c5cff55;border-radius:24px;padding:45px 35px;max-width:460px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:wpop .5s ease}
+@keyframes wpop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.wbox img{width:80px;height:80px;border-radius:18px;margin-bottom:18px}
+.wbox h2{font-size:1.5rem;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:12px}
+.wbox p{color:var(--muted);font-size:.92rem;line-height:1.7;margin-bottom:20px}
+.wbox .ready{font-size:.85rem;color:var(--accent2);margin-bottom:18px}
+.wbtn{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;padding:14px 45px;border-radius:12px;font-size:1.05rem;font-weight:600;cursor:pointer;transition:.25s;animation:pulse 2s infinite}
+.wbtn:hover{transform:translateY(-3px) scale(1.05)}
 </style>
 </head>
 <body>
 <div id="scrollbar"></div>
-
+  <!-- WELCOME OVERLAY -->
+<div id="welcome">
+  <div class="wbox">
+    <img src="logo.png" alt="HalfTopia">
+    <h2>Welcome To HalfTopia</h2>
+    <p>Discover exclusive custom items, meet incredible players from around the world, and dive into a community built for epic journeys and unforgettable experiences.</p>
+    <p class="ready">Ready? Press the button below to begin! 🔊</p>
+    <button class="wbtn" onclick="enterSite()">Enter HalfTopia</button>
+  </div>
+</div>
+  
 <!-- NAV -->
 <nav class="nav">
   <div class="logo"><img src="logo.png" alt="HalfTopia">HalfTopia</div>
@@ -312,16 +333,19 @@ async function updateOnline(){
 }
 updateOnline();setInterval(updateOnline,30000);
 
-/* MUSIC — AUTOPLAY on first touch */
+/* MUSIC — start saat klik Enter */
 const bgm=document.getElementById('bgm'),mBtn=document.getElementById('musicBtn');
 function startMusic(){
-  if(bgm.paused){bgm.volume=0.4;bgm.play().then(()=>{mBtn.classList.add('playing');document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);}).catch(()=>{});}
+  if(bgm.paused){bgm.volume=0.4;bgm.play().then(()=>mBtn.classList.add('playing')).catch(()=>{});}
 }
-document.addEventListener('click',startMusic);
-document.addEventListener('touchstart',startMusic);
+function enterSite(){
+  document.getElementById('welcome').classList.add('hide');
+  startMusic();
+}
 function toggleMusic(){
   if(bgm.paused){startMusic();}else{bgm.pause();mBtn.classList.remove('playing');}
 }
+
   
 </script>
 </body>
